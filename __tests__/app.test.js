@@ -4,6 +4,8 @@ const request = require('supertest');
 const app = require('../lib/app');
 const Dog = require('../lib/models/Dog');
 
+const dog = [];
+
 describe('any-api routes', () => {
   beforeEach(() => {
     return setup(pool);
@@ -26,6 +28,14 @@ describe('any-api routes', () => {
   it('get all the dogs', async () => {
     const expected = await Dog.findAll();
     const res = await request(app).get('/api/v1/dogs');
+
+    expect(res.body).toEqual(expected);
+  });
+
+  it('get dog by ID', async () => {
+    const dog = { name: 'Watson', age: 7 };
+    const expected = await Dog.insert(dog);
+    const res = await request(app).get(`/api/v1/dogs/${expected.id}`);
 
     expect(res.body).toEqual(expected);
   });

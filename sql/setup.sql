@@ -7,3 +7,9 @@ CREATE TABLE dogs (
     name TEXT NOT NULL,
     age INT NOT NULL CHECK (age > -1),
 );
+
+INSERT INTO
+  dogs (name, age)
+VALUES
+  ('Watson', 7),
+  ('Tom', 12);
