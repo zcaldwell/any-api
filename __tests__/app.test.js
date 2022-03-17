@@ -39,4 +39,20 @@ describe('any-api routes', () => {
 
     expect(res.body).toEqual(expected);
   });
+
+  it.only('updates a dog', async () => {
+    const initial = { name: 'Watson', age: 7 };
+
+    const dog = await Dog.insert(initial);
+
+    const res = await request(app)
+      .patch(`/api/v1/dogs/${dog.id}`)
+      .send({ age: 6 });
+
+    expect(res.body).toEqual({
+      id: expect.any(String),
+      name: 'Watson',
+      age: 6,
+    });
+  });
 });
