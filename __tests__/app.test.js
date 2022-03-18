@@ -4,8 +4,6 @@ const request = require('supertest');
 const app = require('../lib/app');
 const Dog = require('../lib/models/Dog');
 
-const dog = [];
-
 describe('any-api routes', () => {
   beforeEach(() => {
     return setup(pool);
@@ -40,7 +38,7 @@ describe('any-api routes', () => {
     expect(res.body).toEqual(expected);
   });
 
-  it.only('updates a dog', async () => {
+  it('updates a dog', async () => {
     const initial = { name: 'Watson', age: 7 };
 
     const dog = await Dog.insert(initial);
@@ -54,5 +52,15 @@ describe('any-api routes', () => {
       name: 'Watson',
       age: 6,
     });
+  });
+
+  it('deletes a dog', async () => {
+    const initial = { name: 'Watson', age: 7 };
+
+    const dog = await Dog.insert(initial);
+
+    const res = await request(app).delete(`/api/v1/dogs/${dog.id}`);
+
+    expect(res.body).toEqual(dog);
   });
 });
